@@ -1,0 +1,295 @@
+<div id="content">
+  <section widget-grid id="widget-grid">
+    <div class="row">
+      <article class="col-sm-12">
+        <div id="todo-widget" jarvis-widget data-widget-editbutton="false" data-widget-color="blue">
+          <header>
+            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+            <h2>(在线人数:100 总数:1W)</h2>
+            <div class="widget-toolbar">
+              <button class="btn btn-xs btn-col-fff" ng-class="{active: newTodo}" ng-click="toggleAdd()"><i ng-class="{ 'fa fa-plus': !newTodo, 'fa fa-times': newTodo}"></i> 筛选</button>
+              <h2 style="line-height: 30px;">
+									<button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal1">新增角色</button>
+								</h2>
+            </div>
+          </header>
+          <!--添加-->
+          <div class="modal fade" id="myModal1" class="bg" tabindex="-1" role="dialog" aria-labelledby="addAccount" aria-hidden="true">
+						<form name="myForm2" novalidate>
+							<div class="modal-dialog">
+	                <div class="modal-content">
+	                  <div class="modal-header">
+	                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+																&times;
+											</button>
+	                    <h4 class="modal-title color" id="addAccount">角色添加</h4>
+	                  </div>
+	                  <label class="col-md-2 col-sm-2 col-xs-4 color input-label">角色名称</label>
+	                  <div class="col-md-10 col-sm-10 col-xs-8 form-group">
+	                    <input type="text" class="form-control widthB" name="title" placeholder="请输入" required ng-model="addRolele.title">
+	                  </div>
+	                  <label class="col-md-2 col-sm-2 col-xs-4 color input-label">描述</label>
+	                  <div class="col-md-10 col-sm-10 col-xs-8 form-group">
+	                    <textarea type="text" class="form-control widthB"
+												                    name="container" ng-maxlength=35
+												                    placeholder="请输入"
+												                    required
+												                    ng-model="addRolele.remark"></textarea>
+	                    <p><small class="error" ng-show="myForm2.container.$error.maxlength">
+																		Your container cannot be longer than 35 characters
+														 </small></p>
+	                  </div>
+	                  <label class="col-md-2 col-sm-2 col-xs-4 color input-label">功能状态</label>
+	                  <div class="col-md-10 col-sm-10 col-xs-8 form-group">
+	                    <label class="radio-inline  input-label" ng-repeat="item in roleStatusOption">
+															<input type="radio" name="addRoleStatus" class="radiobox" value="{{item.value}}"
+																		 ng-checked="item.value == addRolele.status" ng-model="addRolele.status">
+															<span>{{item.name}}</span>
+													</label>
+	                  </div>
+	                  <div class="modal-footer">
+	                    <button type="button" class="btn btn-default" data-dismiss="modal">
+																	取消
+															</button>
+	                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+												ng-disabled="myForm2.container.$error.maxlength || myForm2.container.$error.required || myForm2.title.$error.required" ng-click="addRole()">
+																	确定
+															</button>
+	                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div>
+            <div class="widget-body tab-content">
+              <!--头部筛选查找以及添加-->
+              <div class="widget-body-toolbar" ng-show="newTodo">
+                <div class="form-horizontal">
+                  <div class="row">
+                    <div class="col-md-1 col-xs-4  input-label">状态</div>
+                    <div class="col-md-2 col-xs-8">
+                      <div class="form-group" ng-init="status='0'">
+                        <select class="form-control" ng-model="status">
+																										<option value="0">请选择</option>
+																										<option ng-value="itemStatus.value" ng-repeat="itemStatus in json.option_status">{{itemStatus.name}}</option>
+																								</select>
+                      </div>
+                    </div>
+                    <div class="col-md-1 col-xs-4  input-label">是否在线</div>
+                    <div class="col-md-2 col-xs-8">
+                      <div class="form-group" ng-init="is_login='0'">
+                        <select class="form-control" ng-model="is_login">
+														<option value="0">请选择</option>
+														<option ng-value="itemLogin.value" ng-repeat="itemLogin in json.option_online">{{itemLogin.name}}</option>
+												</select>
+                      </div>
+                    </div>
+                    <label class="col-md-1 col-xs-4  input-label">账号搜索</label>
+                    <div class="col-md-2 col-xs-8 ">
+                      <div class="form-group">
+                        <input type="text" class="form-control inp_2" placeholder="请输入开户账号" ng-model="account">
+                      </div>
+                    </div>
+                    <div class="col-sm-1 col-xs-4 text-center col-xs-offset-2 col-md-offset-0">
+                      <div class="form-group">
+                        <a class="btn btn-default search" ng-click="search()" href-void>搜索</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <form class="form-inline" method="post">
+                <div class="table-scroll">
+                  <table class="table table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <th class="text-center">角色</th>
+                        <th class="text-center">角色名称</th>
+                        <th class="text-center">描述</th>
+                        <th class="text-center">状态</th>
+                        <th class="text-center">操作</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="rolele in list" class="text-center">
+                        <td>{{rolele.id}}</td>
+                        <td>{{rolele.title}}</td>
+                        <td>{{rolele.remark}}</td>
+                        <td>
+                          <p class="text-green" ng-show="rolele.status==1">启用</p>
+                          <p class="text-red" ng-show="rolele.status==2">禁用</p>
+                        </td>
+                        <td>
+                          <!--菜单-->
+                          <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#btn_role_menu" ng-click="getRoleMenu()">菜单</button>
+                          <div class="modal fade" id="btn_role_menu" tabindex="-1" role="dialog" aria-labelledby="addAccount" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+																																				&times;
+																																		</button>
+                                  <h4 class="modal-title" id="addAccount" style="color:#000;">添加</h4>
+                                </div>
+                                <div class="modal-body">
+                                    12121212
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">
+																																				取消
+																																		</button>
+                                  <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addRole()">
+																																				确定
+																																		</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!--权限-->
+                          <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#btn_role_Permission" ng-click="RolePermission()">权限</button>
+                          <div class="modal fade" id="btn_role_Permission" tabindex="-1" role="dialog" aria-labelledby="addAccount" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+																																				&times;
+																																		</button>
+                                  <h4 class="modal-title" id="addAccount" style="color:#000;">添加</h4>
+                                </div>
+                                <div class="modal-body">
+                                  <form enctype="multipart/form-data" class="smart-form client-form ng-pristine ng-valid" novalidate="novalidate" method='POST'>
+                                    12121212
+                                  </form>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">
+																																				取消
+																																		</button>
+                                  <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addRole()">
+																																				确定
+																																		</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!--状态-->
+                          <!-- <button class="btn btn-default btn-xs" ng-click="disable(rolele)" ng-if="rolele.status==2">启用</button>
+                                                    <button class="btn btn-default btn-xs" ng-click="disable(rolele)" ng-if="rolele.status==1">禁用</button> -->
+                          <!--修改-->
+                          <button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#updateRole" ng-click="getRoleInfo(rolele)">修改</button>
+                          <div class="modal fade" id="updateRole" tabindex="-1" role="dialog" aria-labelledby="addAccount" aria-hidden="true">
+                            <div class="modal-dialog">
+															<form action="" name="myForm" novalidate>
+                              	<div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+																								                        &times;
+																								                    </button>
+                                  <h4 class="modal-title" id="addAccount">角色修改</h4>
+                                </div>
+                                <div class="modal-body">
+	                                    <div class="client-form ng-pristine">
+	                                      <div class="row">
+	                                        <label class="col-md-2 col-sm-2 col-xs-4  input-label">角色名称</label>
+	                                        <div class="col-md-10 col-sm-10 col-xs-8 form-group">
+	                                          <input type="text" class="form-control widthB" ng-model="updateRolele.title" name="titlele" placeholder="请输入" required />
+	                                        </div>
+	                                      </div>
+	                                      <div class="row">
+	                                        <label class="col-md-2 col-xs-2  input-label">角色描述</label>
+	                                        <div class="col-md-10 col-xs-10 form-group">
+	                                          <textarea type="text" class="form-control widthB" placeholder="请输入" ng-model="updateRolele.remark" ng-maxlength=35 name="container" ng-pattern="/[1-9]/" required></textarea>
+	                                          <p><small class="error" ng-show="myForm.container.$error.maxlength">
+																		                 Your container cannot be longer than 35 characters
+																		          </small></p>
+	                                          <!-- <p><small class="error"
+																			                 ng-show="myForm.container.$error.pattern">
+																			                 请输入
+																			          </small></p> -->
+	                                        </div>
+	                                      </div>
+	                                      <div class="row">
+	                                        <div class="col-md-2 col-xs-2  input-label">功能状态</div>
+	                                        <div class="col-md-10">
+	                                          <label class="radio-inline input-label" ng-repeat="item in roleStatusOption">
+						                                    <input type="radio" name="status" class="radiobox" value="{{item.value}}"
+						                                           ng-checked="item.value===updateRolele.status" ng-model="updateRolele.status">
+						                                    <span>{{item.name}}</span>
+						                                </label>
+	                                        </div>
+	                                      </div>
+	                                    </div>
+	                                </div>
+	                                <div class="modal-footer">
+	                                  <button type="button" class="btn btn-default" data-dismiss="modal">
+																									                        取消
+																									                    </button>
+	                                  <button type="button" class="btn btn-primary"
+																						ng-click="updateRoleOK()"
+																						data-dismiss="modal"
+																						ng-disabled="myForm.container.$error.maxlength || myForm.container.$error.required || myForm.titlele.$error.required">
+								                        确定le
+								                    </button>
+	                                </div>
+																</div>
+																</div
+															</form>
+														</div>
+                          </div>
+                          <!--刪除-->
+                          <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#btn_role_delete">刪除</button>
+                          <div class="modal fade" id="btn_role_delete" tabindex="-1" role="dialog" aria-labelledby="addAccount" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+																																				&times;
+																																		</button>
+                                  <h4 class="modal-title" id="addAccount" style="color:#000;">确认删除吗？</h4>
+                                </div>
+                                <div class="modal-body">
+                                  <form enctype="multipart/form-data" class="smart-form client-form ng-pristine ng-valid" novalidate="novalidate" >
+                                    删除后会丢失数据的!
+                                  </form>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">
+																																				取消
+																																		</button>
+                                  <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="delRole(rolele)">
+																																				确定
+																																		</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                        </td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+                <!-- <tm-pagination conf="paginationConf"></tm-pagination> -->
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+</div>
+
+<style>
+  .widthB {
+    width: 100% !important;
+  }
+  .error {
+    color: red;
+  }
+  .bg {
+    background: #808080 !important;
+    border: 0;
+  }
+</style>

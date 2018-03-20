@@ -1,0 +1,454 @@
+<div id="content">
+	<section widget-grid id="widget-grid">
+		<div class="row">
+			<article class="col-sm-12">
+				<div id="todo-widget" jarvis-widget data-widget-editbutton="false" data-widget-color="blue">
+					<header>
+						<span class="widget-icon">
+							<i class="fa fa-table"></i>
+						</span>
+						<h2>{{type===1?'新增':'修改'}}主机</h2>
+					</header>
+					<div class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+
+						<!-- Widget ID (each widget will need unique ID)-->
+                            <div class="jarviswidget well transparent" id="wid-id-9" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-togglebutton="false" data-widget-deletebutton="false" data-widget-fullscreenbutton="false" data-widget-custombutton="false" data-widget-sortable="false" role="widget">
+                                <!-- widget options:
+                                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                
+                                data-widget-colorbutton="false"
+                                data-widget-editbutton="false"
+                                data-widget-togglebutton="false"
+                                data-widget-deletebutton="false"
+                                data-widget-fullscreenbutton="false"
+                                data-widget-custombutton="false"
+                                data-widget-collapsed="true"
+                                data-widget-sortable="false"
+                
+                                -->
+                                <header role="heading">
+                                    <span class="widget-icon"> <i class="fa fa-comments"></i> </span>
+                                    <h2>Accordions </h2>
+                
+                                <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span></header>
+                
+                                <!-- widget div-->
+                                <div role="content">
+                
+                                    <!-- widget edit box -->
+                                    <div class="jarviswidget-editbox">
+                                        <!-- This area used as dropdown edit box -->
+                
+                                    </div>
+                                    <!-- end widget edit box -->
+                
+                                    <!-- widget content -->
+                                    <div class="widget-body" style="background: #f3f3f3;">
+                                        <!-- 基本信息 -->
+                                        <div class="panel-group smart-accordion-default" id="accordion">
+                                            <div class="panel panel-default mgb20">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" aria-expanded="true" class="">  <i class="fa fa-lg fa-angle-up pull-right"></i>基本信息</a></h4>
+                                                </div>
+                                                <div class="panel-collapse collapse in" aria-expanded="true" style="">
+                                                    <div class="panel-body">
+                                                       <div class="row">
+                                                            <div class="col-md-1 col-xs-4 col-lg-1  input-label">ID:</div>
+                                                            <div class="col-md-2 col-xs-8 col-lg-3">
+                                                                <div class="form-group">
+                                                                    <input type="text" class="form-control inp_2" placeholder="请输入" ng-model="content">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-1 col-xs-4 col-lg-1  input-label">*品牌:</div>
+                                                            <div class="col-md-2 col-xs-8 col-lg-3">
+                                                                <div class="form-group">
+                                                                    <input type="text" class="form-control inp_2" placeholder="请输入品牌" ng-model="content">
+                                                                </div>
+                                                            </div>
+                                                            
+                                                            <div class="col-md-1 col-xs-4 col-lg-1  input-label">*型号:</div>
+                                                            <div class="col-md-2 col-xs-8 col-lg-3">
+                                                                <div class="form-group">
+                                                                    <input type="text" class="form-control inp_2" placeholder="请输入型号" ng-model="content">
+                                                                </div>
+                                                            </div>
+
+                                                    </div>
+                                                    <div class="row">
+                                                            <div class="col-md-1 col-xs-4 col-lg-1  input-label">授权码:</div>
+                                                            <div class="col-md-2 col-xs-8 col-lg-3">
+                                                                <div class="form-group">
+                                                                    <input type="text" class="form-control inp_2" placeholder="请输入授权码" ng-model="content">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-1 col-xs-4 col-lg-1  input-label">*SN:</div>
+                                                            <div class="col-md-2 col-xs-8 col-lg-3">
+                                                                <div class="form-group">
+                                                                    <input type="text" class="form-control inp_2" placeholder="请输入SN" ng-model="content">
+                                                                </div>
+                                                            </div>
+                                                            
+                                                            <div class="col-md-1 col-xs-4 col-lg-1  input-label">*备注:</div>
+                                                            <div class="col-md-2 col-xs-8 col-lg-3">
+                                                                <div class="form-group">
+                                                                    <input type="text" class="form-control inp_2" placeholder="请输入备注" ng-model="content">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- OS信息 -->
+                                            <div class="panel panel-default mgb20">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion"  class="collapsed" aria-expanded="true">  <i class="fa fa-lg fa-angle-up pull-right"></i>OS信息</a></h4>
+                                                </div>
+                                                <div class="panel-collapse collapse in" aria-expanded="true">
+                                                    <div class="panel-body">
+               											<div class="row">
+               												<div class="col-md-1 col-xs-4 col-lg-1  input-label">系统:</div>
+                                                            <div class="col-md-2 col-xs-8 col-lg-2">
+                                                                <div class="form-group" ng-init="areaId='0'">
+					                                                <select class="form-control" ng-model="areaId">
+					                                                    <option value="0">请选择系统类型</option>
+					                                                    <option ng-value="o.id" ng-repeat="o in mainEngineArea">{{o.title}}</option>
+					                                                </select>
+					                                            </div>
+                                                            </div>
+                                                            <div class="col-md-1 col-xs-4 col-lg-2  input-label">系统版本:</div>
+                                                            <div class="col-md-2 col-xs-8 col-lg-2">
+                                                                <div class="form-group">
+                                                                    <input type="text" class="form-control inp_2" ng-model="content">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-1 col-xs-4 col-lg-2  input-label">内核版本:</div>
+                                                            <div class="col-md-2 col-xs-8 col-lg-2">
+                                                                <div class="form-group">
+                                                                    <input type="text" class="form-control inp_2" placeholder="请输入内核版本" ng-model="content">
+                                                                </div>
+                                                            </div>
+               											</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- CPU -->
+                                            <div class="panel panel-default mgb20">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion"  class="collapsed" aria-expanded="true">  <i class="fa fa-lg fa-angle-up pull-right"></i>*CPU</a></h4>
+                                                </div>
+                                                <div class="panel-collapse collapse in" aria-expanded="true">
+                                                  	<div class="panel-body">
+           												
+	                                				<div class="row bgRow">
+		                                                <div class="text-center col-md-1 col-xs-2 col-lg-2  col-md-offset-1 col-lg-offset-1">型号</div>
+		                                                <div class="text-center col-md-1 col-xs-2 col-lg-2">个数</div>
+		                                                <div class="text-center col-md-1 col-xs-2 col-lg-2">核心</div>
+		                                                <div class="text-center col-md-1 col-xs-2 col-lg-2">线程</div>
+		                                                <div class="text-center col-md-1 col-xs-2 col-lg-2">主频</div>
+	             									</div>
+	             									
+	             									<div class="row form-group">
+	             										<div class="col-md-1 col-xs-2 col-lg-2 col-md-offset-1 col-lg-offset-1 rowBorder">
+															<div class="input-group">
+																<input type="text" class="form-control inp_2" placeholder="请输入型号" ng-model="content">
+		                                                    </div>
+														</div>
+														<div class="col-md-1 col-xs-2 col-lg-2 rowBorder">
+															<div class="input-group">
+																<input type="text" class="form-control inp_2" placeholder="请输入个数" ng-model="content">
+																<span class="input-group-addon">个</span>
+															</div>
+														</div>
+														<div class="col-md-1 col-xs-2 col-lg-2 rowBorder">
+															<div class="input-group">
+																<input type="text" class="form-control inp_2" placeholder="请输入核心" ng-model="content">
+																<span class="input-group-addon">核</span>
+															</div>
+														</div>
+														<div class="col-md-1 col-xs-2 col-lg-2 rowBorder">
+															<div class="input-group">
+		                                                        <input type="text" class="form-control inp_2" placeholder="请输入线程" ng-model="content">
+		                                                    </div>
+														</div>
+														<div class="col-md-1 col-xs-2 col-lg-2 rowBorder">
+															<div class="input-group">
+		                                                        <input type="text" class="form-control inp_2" placeholder="请输入主频" ng-model="content">
+		                                                        <span class="input-group-addon">GHz</span>
+		                                                    </div>
+														</div>
+	             									</div>
+												
+           											<style>
+	             										.bgRow > div{
+	             											background-color: #ccc;padding: 5px;
+	             										}
+	             										.rowBorder{border: 1px solid #ccc;}
+	             										.rowBorder:nth-of-type(1),
+	             										.rowBorder:nth-of-type(2),
+	             										.rowBorder:nth-of-type(3),
+	             										.rowBorder:nth-of-type(4){
+	             											border-right: none;
+	             										}
+	             										
+	             										.rowBorder input {border: none;}
+	             										.rowBorder .input-group-addon{border: none;}
+	             									</style>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 内存 -->
+                                            <div class="panel panel-default mgb20">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion"  class="collapsed" aria-expanded="true">  <i class="fa fa-lg fa-angle-up pull-right"></i>*内存</a></h4>
+                                                </div>
+                                                <div class="panel-collapse collapse in" aria-expanded="true">
+                                                    <div class="panel-body">
+           												<div class="row form-group">
+                                                            <div class="col-md-1 col-xs-4 col-lg-1  input-label">大小:</div>
+                                                            <div class="col-md-2 col-xs-8 col-lg-3">
+                                                               <div class="input-group">
+																	<input type="text" class="form-control inp_2" placeholder="请输入核心" ng-model="content">
+																	<span class="input-group-addon">GB</span>
+																</div>
+                                                            </div>
+
+                                                            <div class="col-md-1 col-xs-4 col-lg-1  input-label">类型:</div>
+                                                            <div class="col-md-2 col-xs-8 col-lg-3">
+                                                                <div class="form-group" ng-init="areaId='0'">
+					                                                <select class="form-control" ng-model="areaId">
+					                                                    <option value="0">请选择</option>
+					                                                    <option ng-value="o.id" ng-repeat="o in mainEngineArea">{{o.title}}</option>
+					                                                </select>
+					                                            </div>
+                                                           
+                                                            </div>
+                                                        </div>  
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- 硬盘 -->
+                                            <div class="panel panel-default mgb20">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion"  class="collapsed" aria-expanded="true">  <i class="fa fa-lg fa-angle-up pull-right"></i>*硬盘</a></h4>
+                                                </div>
+                                                <div  class="panel-collapse collapse in" aria-expanded="true">
+                                                    <div class="panel-body">
+           												<div class="row bgRow">
+		                                                <div class="text-center col-md-1 col-xs-4 col-lg-4  col-md-offset-1 col-lg-offset-1">类型</div>
+		                                                <div class="text-center col-md-1 col-xs-4 col-lg-4">容量</div>
+		                                                <div class="text-center col-md-1 col-xs-2 col-lg-2">操作</div>
+	             									</div>
+	             									
+	             									<div class="row form-group">
+	             										<div class="col-md-1 col-xs-4 col-lg-4 col-md-offset-1 col-xs-offset-1 col-lg-offset-1 rowBorder" style="height: 40px;">
+															<div class="form-group col-md-1 col-xs-10 col-lg-10 col-lg-offset-1" ng-init="areaId='0'" style="margin-bottom: 0;margin-top: 4px;">
+				                                                <select class="form-control" ng-model="areaId">
+				                                                    <option value="0">请选择</option>
+				                                                    <option ng-value="o.id" ng-repeat="o in mainEngineArea">{{o.title}}</option>
+				                                                </select>
+				                                            </div>
+														</div>
+														<div class="col-md-1 col-xs-4 col-lg-4 rowBorder" style="height: 40px;">
+															<div class="input-group" style="margin-top: 4px;">
+																<input type="text" class="form-control inp_2" placeholder="请输入容量" ng-model="content">
+																<span class="input-group-addon">GB</span>
+															</div>
+														</div>
+														<div class="col-md-1 col-xs-2 col-lg-2 rowBorder" style="border-right: 1px solid #ccc;height: 40px;">
+															<div class="input-group text-center" style="line-height: 32px;width: 100%;margin-top: 4px;">
+																<button class="btn btn-xs btn-primary">确定</button>
+																<button class="btn btn-xs btn-danger mgl10">取消</button>
+															</div>
+														</div>
+	             									</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- RAID卡 -->
+                                            <div class="panel panel-default mgb20">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion"  class="collapsed" aria-expanded="true">  <i class="fa fa-lg fa-angle-up pull-right"></i>*RAID卡</a></h4>
+                                                </div>
+                                                <div  class="panel-collapse collapse in" aria-expanded="true">
+                                                    <div class="panel-body">
+           												<div class="row form-group">
+                                                            <div class="col-md-1 col-xs-4 col-lg-2  input-label">型号:</div>
+                                                            <div class="col-md-2 col-xs-8 col-lg-3">
+                                                               <div class="input-group">
+																	<input type="text" class="form-control inp_2" placeholder="请输入型号" ng-model="content">
+																</div>
+                                                            </div>
+
+                                                            <div class="col-md-1 col-xs-4 col-lg-2  input-label">RAID等级:</div>
+                                                            <div class="col-md-2 col-xs-8 col-lg-3">
+                                                                <div class="form-group" ng-init="areaId='0'">
+					                                                <select class="form-control" ng-model="areaId">
+					                                                    <option value="0">未使用</option>
+					                                                    <option ng-value="o.id" ng-repeat="o in mainEngineArea">{{o.title}}</option>
+					                                                </select>
+					                                            </div>
+                                                           
+                                                            </div>
+                                                        </div>  
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- IPMI -->
+                                            <div class="panel panel-default mgb20">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion"  class="collapsed" aria-expanded="true">  <i class="fa fa-lg fa-angle-up pull-right"></i>*IPMI</a></h4>
+                                                </div>
+                                                <div class="panel-collapse collapse in" aria-expanded="true">
+                                                    <div class="panel-body">
+           												<div class="row">
+                                                            <div class="col-md-1 col-xs-4 col-lg-2  input-label">IP:</div>
+                                                            <div class="col-md-2 col-xs-8 col-lg-3">
+                                                                <div class="form-group">
+                                                                    <input type="text" class="form-control inp_2" placeholder="请输入IP" ng-model="content">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-1 col-xs-4 col-lg-2  input-label">MAC:</div>
+                                                            <div class="col-md-2 col-xs-8 col-lg-3">
+                                                                <div class="form-group">
+                                                                    <input type="text" class="form-control inp_2" placeholder="请输入MAC" ng-model="content">
+                                                                </div>
+                                                            </div>
+                                                    </div>
+                                                    <div class="row">
+                                                            <div class="col-md-1 col-xs-4 col-lg-2  input-label">USER账户:</div>
+                                                            <div class="col-md-2 col-xs-8 col-lg-3">
+                                                                <div class="form-group">
+                                                                    <input type="text" class="form-control inp_2" placeholder="请输入账户" ng-model="content">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-1 col-xs-4 col-lg-2  input-label">USER密码:</div>
+                                                            <div class="col-md-2 col-xs-8 col-lg-3">
+                                                                <div class="form-group">
+                                                                    <input type="text" class="form-control inp_2" placeholder="请输入密码" ng-model="content">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- 网卡 -->
+                                            <div class="panel panel-default mgb20">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion"  class="collapsed" aria-expanded="true">  <i class="fa fa-lg fa-angle-up pull-right"></i>*网卡</a></h4>
+                                                </div>
+                                                <div class="panel-collapse collapse in" aria-expanded="true">
+                                                    <div class="panel-body">
+           												<div class="row bgRow">
+		                                                <div class="text-center col-md-1 col-xs-2 col-lg-2  col-md-offset-1 col-lg-offset-1">网卡名</div>
+		                                                <div class="text-center col-md-1 col-xs-2 col-lg-2">IP</div>
+		                                                <div class="text-center col-md-1 col-xs-2 col-lg-2">MAC</div>
+		                                                <div class="text-center col-md-1 col-xs-2 col-lg-2">接口速率</div>
+		                                                <div class="text-center col-md-1 col-xs-2 col-lg-2">操作</div>
+	             									</div>
+	             									
+	             									<div class="row form-group">
+	             										<div class="col-md-1 col-xs-2 col-lg-2 col-md-offset-1 col-lg-offset-1 rowBorder">
+															<div class="input-group">
+																<input type="text" class="form-control inp_2" placeholder="请输入网卡名" ng-model="content">
+		                                                    </div>
+														</div>
+														<div class="col-md-1 col-xs-2 col-lg-2 rowBorder">
+															<div class="input-group">
+																<input type="text" class="form-control inp_2" placeholder="请输入IP" ng-model="content">
+																
+															</div>
+														</div>
+														<div class="col-md-1 col-xs-2 col-lg-2 rowBorder">
+															<div class="input-group">
+																<input type="text" class="form-control inp_2" placeholder="请输入MAC" ng-model="content">
+																
+															</div>
+														</div>
+														<div class="col-md-1 col-xs-2 col-lg-2 rowBorder">
+															<div class="input-group">
+		                                                        <input type="text" class="form-control inp_2" placeholder="请输入接口速率" ng-model="content">
+		                                                    </div>
+														</div>
+														<div class="col-md-1 col-xs-2 col-lg-2 rowBorder">
+	                                                        <div class="input-group text-center" style="line-height: 32px;width: 100%;">
+																<button class="btn btn-xs btn-primary">确定</button>
+																<button class="btn btn-xs btn-danger mgl10">取消</button>
+															</div>
+		                                                  
+														</div>
+	             									</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- 用户 -->
+                                            <div class="panel panel-default mgb20">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" class="collapsed" aria-expanded="true">  <i class="fa fa-lg fa-angle-up pull-right"></i>*用户</a></h4>
+                                                </div>
+                                                <div class="panel-collapse collapse in" aria-expanded="true">
+                                                    <div class="panel-body">
+           												<div class="row">
+                                                            <div class="col-md-1 col-xs-4 col-lg-1  input-label">账户:</div>
+                                                            <div class="col-md-2 col-xs-8 col-lg-3">
+                                                                <div class="form-group">
+                                                                    <input type="text" class="form-control inp_2" placeholder="请输入账户" ng-model="content">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-1 col-xs-4 col-lg-1  input-label">密码:</div>
+                                                            <div class="col-md-2 col-xs-8 col-lg-3">
+                                                                <div class="form-group">
+                                                                    <input type="text" class="form-control inp_2" placeholder="请输入密码" ng-model="content">
+                                                                </div>
+                                                            </div>
+                                                    	</div>
+                   
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- 业务 -->
+                                            <div class="panel panel-default mgb20">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" class="collapsed" aria-expanded="true">  <i class="fa fa-lg fa-angle-up pull-right"></i>*业务</a></h4>
+                                                </div>
+                                                <div class="panel-collapse collapse in" aria-expanded="true">
+                                                    <div class="panel-body">
+           												<div class="row">
+                                                            <div class="col-md-1 col-xs-4 col-lg-1  input-label">月租:</div>
+                                                            <div class="col-md-2 col-xs-8 col-lg-3">
+                                                                <div class="form-group">
+                                                                    <input type="text" class="form-control inp_2" placeholder="请输入月租" ng-model="content">
+                                                                </div>
+                                                            </div>
+                                                    	</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix">
+                                            	<button class="btn btn-primary fr">保存</button>
+                                            </div>
+                                        </div>
+                
+                                    </div>
+                                    <!-- end widget content -->
+                
+                                </div>
+                                <!-- end widget div -->
+                
+                            </div>
+                            <!-- end widget -->
+					</div><!--end-ui-sortable-->
+				</div><!--end-widget-->
+			</article>
+		</div>
+	</section>
+</div>

@@ -1,0 +1,216 @@
+<div id="content">
+    <section widget-grid id="widget-grid">
+        <div class="row">
+            <article class="col-sm-12">
+                <div id="todo-widget" jarvis-widget data-widget-editbutton="false" data-widget-color="blue">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>(总数: {{totalNumber}})</h2>
+                        <div class="widget-toolbar">
+                            <button class="btn btn-xs btn-col-fff" ng-class="{active: newTodo}" data-toggle="modal"
+                                    data-target="#addMask">
+                                <i ng-class="{ 'fa fa-plus': !newTodo, 'fa fa-times': newTodo}"></i> 新增功能
+                            </button>
+                        </div>
+                    </header>
+                    <div>
+                        <div class="widget-body tab-content">
+                            <form class="form-inline" method="post">
+                                <div class="table-scroll">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th class="text-center">所属模块名称</th>
+                                            <th class="text-center">功能名称</th>
+                                            <th class="text-center">路由</th>
+                                            <th class="text-center">请求方式</th>
+                                            <th class="text-center">状态</th>
+                                            <th class="text-center">功能</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="power in list track by power.id" class="text-center">
+                                            <td>{{power.modelName}}</td>
+                                            <td>{{power.title}}</td>
+                                            <td>{{power.route}}</td>
+
+                                            <td>{{power.routeType | routeType}}</td>
+                                            <td class="text-green" ng-show="power.status==1">
+                                                {{power.status|fiterStatused}}
+                                            </td>
+                                            <td class="text-red" ng-show="power.status==2">
+                                                {{power.status|fiterStatused}}
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-primary btn-xs" ng-click="getPowerInfo(power)"
+                                                        data-toggle="modal" data-target="#updateMask">修改
+                                                </button>
+                                                <button class="btn btn-default btn-xs" ng-click="disable(power)"
+                                                        ng-if="power.status == 1">禁用
+                                                </button>
+                                                <button class="btn btn-default btn-xs" ng-click="disable(power)"
+                                                        ng-if="power.status == 2">启用
+                                                </button>
+                                                <button class="btn btn-danger btn-xs" ng-click="deletePower(power)">刪除
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <tm-pagination conf="paginationConf"></tm-pagination>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+    <!--新增弹出框-->
+    <div class="modal fade" id="addMask" tabindex="-1" role="dialog" aria-labelledby="addAccount" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="addAccount">新增功能</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="client-form ng-pristine">
+                        <div class="row">
+                            <label class="col-sm-2 col-xs-12  input-label text-left">模块名称</label>
+                            <div class="col-sm-10 col-xs-12 form-group">
+                                <input type="text" class="form-control" placeholder="请输入"
+                                       ng-model="addPowerObj.modelName">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-sm-2 col-xs-12  input-label text-left">功能名称</label>
+                            <div class="col-sm-10 col-xs-12 form-group">
+                                <input type="text" class="form-control" placeholder="请输入"
+                                       ng-model="addPowerObj.title">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-sm-2 col-xs-12  input-label text-left">路由</label>
+                            <div class="col-sm-10 col-xs-12 form-group">
+                                <input type="text" class="form-control" placeholder="请输入"
+                                       ng-model="addPowerObj.route">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-2 col-xs-12  input-label text-left">请求方式</div>
+                            <div class="col-sm-10 col-xs-12 form-group">
+                                <select class="form-control" ng-model="addPowerObj.routeType"
+                                        ng-options="item.value as item.name for item in routeTypeOption">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2 col-xs-12  input-label text-left">功能状态</div>
+                            <div class="col-sm-10 col-xs-12">
+                                <label class="radio-inline  input-label" ng-repeat="item in powerStatusOption">
+                                    <input type="radio" name="addPowerStatus" class="radiobox" value="{{item.value}}"
+                                           ng-checked="item.value == addPowerObj.status" ng-model="addPowerObj.status">
+                                    <span>{{item.name}}</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        取消
+                    </button>
+                    <button type="button" class="btn btn-primary" ng-click="addPower()"
+                            ng-disabled="!addPowerObj.modelName || !addPowerObj.title || !addPowerObj.route">
+                        确定
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--修改功能弹出框-->
+    <div class="modal fade" id="updateMask" tabindex="-1" role="dialog" aria-labelledby="updateAccount"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="updateAccount">修改功能</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="client-form ng-pristine" name="updatePowerForm" novalidate>
+                        <div class="row">
+                            <label class="col-sm-2 col-xs-12  input-label text-left">模块名称</label>
+                            <div class="col-sm-10 col-xs-12 form-group">
+                                <input type="text" class="form-control" placeholder="请输入"
+                                       ng-model="updatePowerObj.modelName" name="modelName" required
+                                       ng-class="{'errorTool':!updatePowerObj.modelName}">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-sm-2 col-xs-12  input-label text-left">功能名称</label>
+                            <div class="col-sm-10 col-xs-12 form-group">
+                                <input type="text" class="form-control" placeholder="请输入"
+                                       ng-model="updatePowerObj.title"
+                                       ng-class="{'errorTool':!updatePowerObj.title}">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-sm-2 col-xs-12  input-label text-left">路由</label>
+                            <div class="col-sm-10 col-xs-12 form-group">
+                                <input type="text" class="form-control" placeholder="请输入"
+                                       ng-model="updatePowerObj.route"
+                                       ng-class="{'errorTool':!updatePowerObj.route}">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-2 col-xs-12  input-label text-left">请求方式</div>
+                            <div class="col-sm-10 col-xs-12 form-group">
+                                <select class="form-control" ng-model="updatePowerObj.routeType"
+                                        ng-options="item.value as item.name for item in routeTypeOption">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2 col-xs-12  input-label text-left">功能状态</div>
+                            <div class="col-sm-10 col-xs-12">
+                                <label class="radio-inline  input-label" ng-repeat="item in powerStatusOption">
+                                    <input type="radio" name="updatePowerStatus" class="radiobox" value="{{item.value}}"
+                                           ng-checked="item.value==updatePowerObj.status"
+                                           ng-model="updatePowerObj.status">
+                                    <span>{{item.name}}</span>
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        取消
+                    </button>
+                    <button type="button" class="btn btn-primary" ng-click="updatePower()"
+                            ng-disabled="!updatePowerObj.modelName || !updatePowerObj.title || !updatePowerObj.route">
+                        确定
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .errorTool {
+        border: 1px solid red;
+    }
+</style>

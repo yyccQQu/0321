@@ -1,0 +1,282 @@
+<div id="content">
+	<section widget-grid id="widget-grid">
+		<div class="row">
+			<article class="col-sm-12">
+				<div id="todo-widget" jarvis-widget data-widget-editbutton="false" data-widget-color="blue">
+					<header>
+						<span class="widget-icon">
+							<i class="fa fa-table"></i>
+						</span>
+						
+						<div class="widget-toolbar">
+                        	<button class="btn btn-xs btn-col-fff" ng-class="{active: newTodo}" ng-click="toggleAdd()"><i ng-class="{ 'fa fa-plus': !newTodo, 'fa fa-times': newTodo}"></i> 筛选</button>
+                    		
+							<button class="btn btn-col-fff btn-xs" data-toggle="modal" data-target="#addMainEngineModal">新增主机</button>
+							<button class="btn btn-col-fff btn-xs" data-toggle="modal" data-target="#bindLeaderModal">绑定负责人</button>
+
+
+
+						</div>
+					</header>
+					<div>
+                        <div class="widget-body tab-content">
+                            <!--头部筛选查找以及添加-->
+                            <div class="widget-body-toolbar" ng-show="newTodo">
+                                <div class="form-horizontal">
+                                    <div class="row">
+                                    	
+                                    		<div class="col-md-1 col-xs-4 col-lg-2 input-label">区域：</div>
+                                    		<div class="col-md-1 col-xs-8">
+                                    			<div class="form-group" ng-init="areaId='0'">
+	                                                <select class="form-control" ng-model="areaId">
+	                                                    <option value="0">全部</option>
+	                                                    <option ng-value="o.id" ng-repeat="o in mainEngineArea">{{o.title}}</option>
+	                                                </select>
+	                                            </div>
+                                    		</div>
+                                    
+                                    	
+                                    		<div class="col-md-1 col-xs-4 col-lg-2 input-label">机房：</div>
+                                    		<div class="col-md-1 col-xs-8">
+                                    			<div class="form-group" ng-init="roomId='0'">
+	                                                <select class="form-control" ng-model="roomId">
+	                                                    <option value="0">全部</option>
+	                                                    <option ng-value="itemStatus.value" ng-repeat="itemStatus in json.option_status">{{itemStatus.name}}</option>
+	                                                </select>
+	                                            </div>
+                                    		</div>
+                                    	
+                                    
+                                    		<div class="col-md-1 col-xs-4 col-lg-2 input-label">机柜：</div>
+                                    		<div class="col-md-1 col-xs-8">
+                                    			<div class="form-group" ng-init="cabinetId='0'">
+	                                                <select class="form-control" ng-model="cabinetId">
+	                                                    <option value="0">全部</option>
+	                                                    <option ng-value="itemStatus.value" ng-repeat="itemStatus in json.option_status">{{itemStatus.name}}</option>
+	                                                </select>
+	                                            </div>
+                                    		</div>
+                                    
+                                    
+                                    		<div class="col-md-2 col-xs-4 col-lg-2  input-label">是否安装系统：</div>
+                                    		<div class="col-md-1 col-xs-8">
+                                    			<div class="form-group" ng-init="system='0'">
+	                                                <select class="form-control" ng-model="system">
+	                                                    <option value="0">全部</option>
+	                                                    <option ng-value="itemStatus.value" ng-repeat="itemStatus in json.option_status">{{itemStatus.name}}</option>
+	                                                </select>
+	                                            </div>
+                                    		</div>
+                                    	</div>
+                                		<div class="row">
+                                    		<div class="col-md-2 col-xs-4  input-label">是否有业务：</div>
+                                    		<div class="col-md-1 col-xs-8">
+                                    			<div class="form-group" ng-init="order='0'">
+	                                                <select class="form-control" ng-model="order">
+	                                                    <option value="0">全部</option>
+	                                                    <option ng-value="itemStatus.value" ng-repeat="itemStatus in json.option_status">{{itemStatus.name}}</option>
+	                                                </select>
+	                                            </div>
+                                    		</div>
+                                    	
+                                    
+                                    		<div class="col-md-1 col-xs-2">
+                                                <div class="form-group" ng-init="type='0'">
+                                        			<select class="form-control" ng-model="type">
+                                                        <option value="0">请选择</option>
+                                                        <option ng-value="itemStatus.value" ng-repeat="itemStatus in json.option_status">{{itemStatus.name}}</option>
+                                                    </select>
+                                                </div>
+                                    		</div>
+                                    		
+                                			<div class="col-md-2 col-xs-4 ">
+	                                            <div class="form-group">
+	                                                <input type="text" class="form-control inp_2" placeholder="请输入" ng-model="content">
+	                                            </div>
+                                    		</div>
+                                    		<div class="col-sm-1 col-xs-2 text-center col-xs-offset-0 col-md-offset-0">
+                                        		<div class="form-group">
+                                            		<a class="btn btn-default search" ng-click="search()" href-void>搜索</a>
+                                        		</div>
+                                    		</div>
+                                    		
+                                    </div>
+                                </div>
+                            </div>
+                            <form class="form-inline" method="post">
+                                <div class="table-scroll">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <!--<th class="text-center">选择</th>-->
+                                                <th class="text-center">ID</th>
+                                                <th class="text-center">品牌</th>
+                                                <th class="text-center">型号</th>
+                                                <th class="text-center">CPU型号</th>
+                                                <th class="text-center">CPU个数</th>
+                                                <th class="text-center">CPU核心</th>
+                                                <th class="text-center">CPU线程</th>
+                                                <th class="text-center">CPU主频</th>
+                                                <th class="text-center">内存</th>
+                                                <th class="text-center">硬盘</th>
+                                                <th class="text-center">网卡数</th>
+                                                <th class="text-center">负责人</th>
+                                                <th class="text-center">订单号</th>
+                                                <th class="text-center">状态</th>
+                                                <th class="text-center">备注</th>
+                                                <th class="text-center">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="g in hostList"  class="text-center">
+
+                                                <!--<td>
+                                                	<div class="smart-form">
+                                                		<label class="checkbox">
+															<input type="checkbox" name="checkbox">
+															<i style="left:12%;"></i>
+														</label>
+                                                	</div>
+                                                	
+												</td>-->
+                                                <td><a href="" class="text-red">{{g.ids}}</a></td>
+                                                <td>{{g.brand}}</td>
+                                                <td>{{g.model}}</td>
+                                                <td>{{g.cpuModel}}</td>
+                                                <td>{{g.cpuNum}}</td>
+                                                <td>{{g.cpuCore}}核</td>
+                                                <td>{{g.cpuLine}}</td>
+                                                <td>{{g.cpuFreq}}GHz</td>
+                                                <td>{{g.memorySize}}G</td>
+                                                <td>{{g.hardDisk}}</td>
+                                                <td>{{g.networkCardNum}}</td>
+                                                <td>{{g.dutyName}}</td>
+                                                <td><a href="" class="text-red">{{g.orderId}}</a></td>
+                                                <td>
+                                                	<div class="smart-form">
+                                                		<label class="toggle">
+														<input type="checkbox" name="checkbox-toggle" ng-checked="g.status==1" ng-click="switch(g,$event)">
+														<i style="right:23%;" data-swchon-text="开" data-swchoff-text="关"></i>
+													</label>
+                                                	</div>
+                                                	
+                                                </td>
+                                                <td>{{g.remark}}</td>
+                                                <td><button class="btn btn-xs btn-primary" ng-click="updateMainEngine(g.ids)">修改</button></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <tm-pagination conf="paginationConf"></tm-pagination>
+
+
+                            </form>
+                        </div>
+                    </div>
+				</div>
+			</article>
+		</div>
+	</section>
+</div>
+
+
+
+
+<!--新增主机弹框-->
+    <div class="modal fade" id="addMainEngineModal" tabindex="-1" role="dialog" aria-labelledby="addAccount" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="addAccount">主机归属</h4>
+                </div>
+                <div class="modal-body">
+                        <div class="row">
+                        	<div class="col-md-1 col-xs-4 col-lg-4 input-label">区域：</div>
+	                		<div class="col-md-2 col-xs-4 col-lg-4">
+	                			<div class="form-group" ng-init="roomId='0'">
+	                                <select class="form-control" ng-model="roomId">
+	                                    <option value="0">全部</option>
+	                                    <option ng-value="itemStatus.value" ng-repeat="itemStatus in json.option_status">{{itemStatus.name}}</option>
+	                                </select>
+	                            </div>
+	                		</div>
+                        </div>
+                        <div class="row">
+                        	<div class="col-md-1 col-xs-4 col-lg-4 input-label">机房：</div>
+	                		<div class="col-md-2 col-xs-4 col-lg-4">
+	                			<div class="form-group" ng-init="roomId='0'">
+	                                <select class="form-control" ng-model="roomId">
+	                                    <option value="0">全部</option>
+	                                    <option ng-value="itemStatus.value" ng-repeat="itemStatus in json.option_status">{{itemStatus.name}}</option>
+	                                </select>
+	                            </div>
+	                		</div>
+                        </div>
+                        <div class="row">
+                        	
+                        	<div class="col-md-1 col-xs-4 col-lg-4 input-label">机柜：</div>
+	                		<div class="col-md-2 col-xs-4 col-lg-4">
+	                			<div class="form-group" ng-init="roomId='0'">
+	                                <select class="form-control" ng-model="roomId">
+	                                    <option value="0">全部</option>
+	                                    <option ng-value="itemStatus.value" ng-repeat="itemStatus in json.option_status">{{itemStatus.name}}</option>
+	                                </select>
+	                            </div>
+	                		</div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" ng-click="addMainEngineModalSure()">确定</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+<!--绑定负责人弹框-->
+    <div class="modal fade" id="bindLeaderModal" tabindex="-1" role="dialog" aria-labelledby="addAccount" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="addAccount">绑定负责人</h4>
+                </div>
+                <div class="modal-body">
+                        <div class="row">
+                        	<div class="col-md-1 col-xs-4 col-lg-4 input-label">主负责人：</div>
+	                		<div class="col-md-2 col-xs-4 col-lg-4">
+	                			<div class="form-group" ng-init="roomId='0'">
+	                                <select class="form-control" ng-model="roomId">
+	                                    <option value="0">请选择</option>
+	                                    <option ng-value="itemStatus.value" ng-repeat="itemStatus in json.option_status">{{itemStatus.name}}</option>
+	                                </select>
+	                            </div>
+	                		</div>
+                        </div>
+                        <div class="row">
+                        	<div class="col-md-1 col-xs-4 col-lg-4 input-label">副负责人：</div>
+	                		<div class="col-md-2 col-xs-4 col-lg-4">
+	                			<div class="form-group" ng-init="roomId='0'">
+	                                <select class="form-control" ng-model="roomId">
+	                                    <option value="0">全部</option>
+	                                    <option ng-value="itemStatus.value" ng-repeat="itemStatus in json.option_status">{{itemStatus.name}}</option>
+	                                </select>
+	                            </div>
+	                		</div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" ng-click="bindLeaderModalSure()">确定</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,228 @@
+<!-- 开户人管理 -->
+<div id="content">
+    <section widget-grid id="widget-grid">
+        <div class="row">
+            <article class="col-sm-12">
+                <div id="todo-widget" jarvis-widget data-widget-editbutton="false" data-widget-color="blue">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>(在线人数:{{total.onlineNumber}} 总数:{{total.totalNumber}})</h2>
+                        <div class="widget-toolbar">
+                            <button class="btn btn-xs btn-col-fff" ng-class="{active: newTodo}" ng-click="toggleAdd()"><i ng-class="{ 'fa fa-plus': !newTodo, 'fa fa-times': newTodo}"></i> 筛选</button>
+                        </div>
+
+                        <div class="widget-toolbar">
+                            <button class="btn btn-xs btn-col-fff" ng-class="{active: newTodo}" data-toggle="modal" data-target="#myModal1">添加</button>
+                        </div>
+                    </header>
+                    <div>
+                        <div class="widget-body tab-content">
+                            <!--头部筛选查找以及添加-->
+                            <div class="widget-body-toolbar" ng-show="newTodo">
+                                <div class="form-horizontal">
+                                    <div class="row">
+                                        <div class="col-md-1 col-xs-4  input-label">状态</div>
+                                        <div class="col-md-2 col-xs-8">
+                                            <div class="form-group" ng-init="status='0'">
+                                                <select class="form-control" ng-model="status">
+                                                    <option value="0">请选择</option>
+                                                    <option ng-value="itemStatus.value" ng-repeat="itemStatus in json.option_status">{{itemStatus.name}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1 col-xs-4  input-label">是否在线</div>
+                                        <div class="col-md-2 col-xs-8">
+                                            <div class="form-group" ng-init="is_login='0'">
+                                                <select class="form-control" ng-model="is_login">
+                                                    <option value="0">请选择</option>
+                                                    <option ng-value="itemLogin.value" ng-repeat="itemLogin in json.option_online">{{itemLogin.name}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <label class="col-md-1 col-xs-4  input-label">账号搜索</label>
+                                        <div class="col-md-2 col-xs-8 ">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control inp_2" placeholder="请输入开户账号" ng-model="account">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-1 col-xs-4 text-center col-xs-offset-2 col-md-offset-0">
+                                            <div class="form-group">
+                                                <a class="btn btn-default search" ng-click="search()" href-void>搜索</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <form class="form-inline" method="post">
+                                <div class="table-scroll">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">状态</th>
+                                                <th class="text-center">名称</th>
+                                                <th class="text-center">账号</th>
+                                                <th class="text-center">站点数</th>
+                                                <th class="text-center">二级代理数</th>
+                                                <th class="text-center">代理等级</th>
+                                                <th class="text-center">代理数</th>
+                                                <th class="text-center">会员数</th>
+                                                <th class="text-center">时间</th>
+                                                <th class="text-center">套餐名称</th>
+                                                <th class="text-center">客户后台域名</th>
+                                                <th class="text-center">状态</th>
+                                                <th class="text-center">功能</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in list" class="text-center">
+
+                                                <td>{{item.isLogin|fiterStatuseds}}</td>
+                                                <td>{{item.userName}}</td>
+                                                <td class="text-red">{{item.account}}</td>
+                                                <td>{{item.siteNumber}}</td>
+                                                <td>{{item.firstNumber}}</td>
+                                                <td>{{item.secondNumber}}</td>
+                                                <td>{{item.thirdNumber}}</td>
+                                                <td>{{item.memberNumber}}</td>
+                                                <td>{{item.createTime|fiterTime}}</td>
+                                                <td>{{item.comboName}}</td>
+                                                <td>{{item.domain}}</td>
+                                                <td class="text-red" ng-show="item.status==1">{{item.status|fiterStatused}}</td>
+                                                <td class="text-green" ng-show="item.status==2">{{item.status|fiterStatused}}</td>
+                                                <td>
+                                                    <button class="btn btn-default btn-xs" ng-click="disable(item)" ng-if="item.status==2">启用</button>
+                                                    <button class="btn btn-default btn-xs" ng-click="disable(item)" ng-if="item.status==1">禁用</button>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <tm-pagination conf="paginationConf"></tm-pagination>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+    <span style="display: none" class="zz">{{getWord('accounts')}}</span>
+    <!--<input type="text" value="{{getWord('accounts')}}" class="zz">-->
+
+    <!--添加-->
+    <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="addAccount" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="addAccount">添加</h4>
+                </div>
+                <div class="modal-body">
+                    <form enctype="multipart/form-data" class="smart-form client-form ng-pristine ng-valid" novalidate="novalidate" method='POST'>
+                        12121212
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        取消
+                    </button>
+                    <button type="button" class="btn btn-primary">
+                        确定
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--编辑-->
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel1">{{getWord('AmendAccountOpenAccount')}}</h4>
+
+                </div>
+                <div class="modal-body">
+                    <form enctype="multipart/form-data" class="smart-form client-form ng-pristine ng-valid" novalidate="novalidate" method='POST'>
+                        <fieldset>
+                            <section class="input-item">
+                                <div class="col-md-3 col-xs-4 input-label">{{getWord('accounts')}}</div>
+                                <div class="col-md-7 col-xs-8 input-label text-left" ng-bind="modifyData.account"></div>
+                            </section>
+                            <section class="input-item">
+                                <label class="col-md-3 col-xs-4 input-label">{{getWord('Password')}}</label>
+                                <label class="col-md-7 col-xs-8 input">
+                                    <input type="password" name="account" placeholder="{{getWord('Password')}}"  ng-model="modifyData.password">
+                                    <b class="tooltip tooltip-top-right">
+                                        密码长度6-12位，只能字母和数字组合</b>
+                                </label>
+                            </section>
+                            <section class="input-item">
+                                <label class="col-md-3 col-xs-4 input-label">{{getWord('Confirm password')}}</label>
+                                <label class="col-md-7 col-xs-8 input">
+                                    <input type="password" name="account" placeholder="{{getWord('Password')}}"  ng-model="modifyData.re_password">
+                                    <b class="tooltip tooltip-top-right">
+                                        密码长度6-12位，只能字母和数字组合</b>
+                                </label>
+                            </section>
+                            <section class="input-item">
+                                <label class="col-md-3 col-xs-4 input-label">操作密码</label>
+                                <label class="col-md-7 col-xs-8 input">
+                                    <input type="password" name="account" placeholder="{{getWord('Confirm password')}}" ng-model="modifyData.operatePassword">
+                                    <b class="tooltip tooltip-top-right">
+                                        密码长度6-12位，只能字母和数字组合</b>
+                                </label>
+                            </section>
+                            <section class="input-item">
+                                <label class="col-md-3 col-xs-4 input-label">{{getWord('Name')}}</label>
+                                <label class="col-md-7 col-xs-8 input">
+                                    <input type="text" name="Name" placeholder="{{getWord('Name')}}"  ng-model="modifyData.username">
+                                    <!--<b class="tooltip tooltip-top-right">-->
+                                    <!--账号长度5-12位，只能字母和数字组合</b>-->
+                                </label>
+                            </section>
+                            <!--<section class="input-item">-->
+                            <!--<label class="col-md-3 col-xs-4 input-label">{{getWord('Operation password')}}</label>-->
+                            <!--<label class="col-md-7 col-xs-8 input">-->
+                            <!--<input type="password" name="account" placeholder="{{getWord('Operation password')}}"  ng-model="modifyData.operate_password">-->
+                            <!--<b class="tooltip tooltip-top-right">-->
+                            <!--密码长度6-12位，只能字母和数字组合</b>-->
+                            <!--</label>-->
+                            <!--</section>-->
+                            <section class="input-item">
+                                <label class="col-md-3 col-xs-4 input-label">{{getWord('currentState')}}</label>
+                                <label class="col-md-4 col-xs-4 input-label text-left">
+                                    <input type="radio" value="1" name="status" ng-model="modifyData.status">
+                                    {{lang['Enables']}}
+                                </label>
+                                <label class="col-md-4 col-xs-4 input-label text-left">
+                                    <input type="radio" value="2" name="status" ng-model="modifyData.status">
+                                    {{lang['Disable']}}
+                                </label>
+                            </section>
+
+                        </fieldset>
+                    </form>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            {{getWord('Cancel')}}
+                        </button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="modifySubmit()">
+                            {{getWord('Confirm')}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

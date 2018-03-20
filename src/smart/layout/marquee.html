@@ -1,0 +1,14 @@
+<div class="">
+    <form class="row form-horizontal runs col-md-12 col-xs-6">
+        <div class="col-md-12 col-xs-6">
+            <i class="fa fa-bullhorn icons"></i>
+            <div class="form-group contRun">
+                <marquee onmouseout="this.start()" onmousemove="this.stop()" >
+                    <span ng-repeat="data in list">
+                        {{data.noticeContent}}
+                    </span>
+                </marquee>
+            </div>
+        </div>
+    </form>
+</div>
