@@ -38,7 +38,8 @@ appConfig.apiUrls = {
       ROLE_LIST: "/role/list",//角色列表
       ROLE_STATUS: "/role/status",//角色状态修改
       // ROLE_INFO: "/role/info",//角色修改获取
-      ROLE: "/role"
+      ROLE: "/role",
+      ROLE_POWER: "/role/power" //角色权限获取
     }
 
 };
@@ -62,9 +63,5 @@ appConfig.option = {
         {name: "POST", value: "2"},
         {name: "PUT", value: "3"},
         {name: "DELETE", value: "4"}
-    ],
-    option_role_status: [
-        {name: "停用", value: "2"},
-        {name: "启用", value: "1"}
     ]
 };

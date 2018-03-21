@@ -13,17 +13,32 @@ angular.module('app.Role').controller('RoleCtrl', function($scope, $rootScope, A
       remark: '',
       status: ''
   };
+  $scope.paginationConf = {
+      currentPage: 1,
+      itemsPerPage: APP_CONFIG.PAGE_SIZE_DEFAULT
+  };
+
+  var getRoleListFun = function () {
+    var postData = {
+      page: $scope.paginationConf.currentPage,
+      pageSize: $scope.paginationConf.itemsPerPage
+    }
+    RoleService.getRoleList(postData).then(function(res) {
+      if(res.code) {
+        popupSvc.smallBox("fail", res.msg);
+      }else {
+          $scope.paginationConf.totalItems = res.data.meta.count;
+          $scope.list = res.data.data.data;
+          $scope.totalNumber = res.data.data.total.totalNumber;
+      }
+    })
+
+  }
+  $scope.$watch('paginationConf.currentPage + paginationConf.itemsPerPage', getRoleListFun);
 
   $scope.list = [];
-  $scope.roleStatusOption = APP_CONFIG.option.option_role_status;
-  RoleService.getRoleList().then(function (res) {
-      console.log(res);
-      if (res.code) {
-          popupSvc.smallBox("fail", response.msg);
-      } else {
-          $scope.list = res.data;
-      }
-  });
+  $scope.roleStatusOption = APP_CONFIG.option.option_status;
+
 
   $scope.disable = function(item) {
       var sure = function() {
@@ -68,9 +83,37 @@ angular.module('app.Role').controller('RoleCtrl', function($scope, $rootScope, A
     console.log('菜单');
   }
   //权限 getRolePermission
-  $scope.RolePermission = function () {
-    console.log('权限');
+  $scope.getRolePermission = function (role) {
+    console.log('权限获取',role.powersBackpId);
+    var postData = {
+      powersBackpId: role.powersBackpId//权限id
+      //角色id
+    }
+    RoleService.getRolePermissionGet(postData).then(function(res) {
+      if (res.code) {
+        popupSvc.smallBox("fail", res.msg);
+      } else {
+        $scope.permissionGet = res.data.data.data
+      }
+    })
+
   }
+
+  //权限状态
+
+  $rootScope.getRolemiss = function(role) {
+    $scope.updateRolePermission = {
+        id: role.id,
+        title: role.title,
+        status: role.status
+    }
+  }
+  $scope.click = function () {
+    console.log("1")
+  }
+
+
+
   //公用
   $scope.common = function() {
 
@@ -82,7 +125,8 @@ angular.module('app.Role').controller('RoleCtrl', function($scope, $rootScope, A
         title: role.title,
         remark: role.remark,
         status: role.status
-    };
+    }
+
   }
   //确认修改后
   $scope.updateRoleOK = function() {
