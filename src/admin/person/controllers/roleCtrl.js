@@ -13,17 +13,32 @@ angular.module('app.Role').controller('RoleCtrl', function($scope, $rootScope, A
       remark: '',
       status: ''
   };
+  $scope.paginationConf = {
+      currentPage: 1,
+      itemsPerPage: APP_CONFIG.PAGE_SIZE_DEFAULT
+  };
+
+  var getRoleListFun = function () {
+    var postData = {
+      page: $scope.paginationConf.currentPage,
+      pageSize: $scope.paginationConf.itemsPerPage
+    }
+    RoleService.getRoleList(postData).then(function(res) {
+      if(res.code) {
+        popupSvc.smallBox("fail", res.msg);
+      }else {
+          $scope.paginationConf.totalItems = res.data.meta.count;
+          $scope.list = res.data.data.data;
+          $scope.totalNumber = res.data.data.total.totalNumber;
+      }
+    })
+
+  }
+  $scope.$watch('paginationConf.currentPage + paginationConf.itemsPerPage', getRoleListFun);
 
   $scope.list = [];
-  $scope.roleStatusOption = APP_CONFIG.option.option_role_status;
-  RoleService.getRoleList().then(function (res) {
-      console.log(res);
-      if (res.code) {
-          popupSvc.smallBox("fail", response.msg);
-      } else {
-          $scope.list = res.data;
-      }
-  });
+  $scope.roleStatusOption = APP_CONFIG.option.option_status;
+
 
   $scope.disable = function(item) {
       var sure = function() {
@@ -31,7 +46,7 @@ angular.module('app.Role').controller('RoleCtrl', function($scope, $rootScope, A
               id: item.id,
               status: item.status
           };
-          RoleService.getHolderDisable(postData).then(function(response) {
+          RoleService.getRoleStatus(postData).then(function(response) {
               if (response.data.data === null) {
                   if (item.status == 1) {
                       item.status = 2;
@@ -68,21 +83,99 @@ angular.module('app.Role').controller('RoleCtrl', function($scope, $rootScope, A
     console.log('菜单');
   }
   //权限 getRolePermission
-  $scope.RolePermission = function () {
-    console.log('权限');
+  $scope.clickedBox = function (checked) {
+    if(checked.powersBackpChecked === "1"){
+      checked.powersBackpChecked = "0"
+      return
+    }
+    if(checked.powersBackpChecked === "0"){
+      checked.powersBackpChecked = "1"
+      return
+    }
+
   }
+  $scope.isSelected = function(checked) {
+    if(checked === "1") { //开启
+      return true
+    }else if(checked === "0") {//关闭
+      return false
+    }
+  }
+
+  $rootScope.gotIn = function () {
+    $scope.updateRolePermission2 = ""
+  }
+
+  $scope.getRolePermission = function (role) {
+    console.log('权限获取',role.id);
+    var postData = {
+      id: role.id
+    }
+    RoleService.getRolePermissionGet(postData).then(function(res) {
+      if (res.code) {
+        popupSvc.smallBox("fail", res.msg);
+      } else {
+
+        $scope.permissionGet = res.data.data.data;
+//选中复选框，就传，反之不传。当权限id等于用户id时，就渲染对应列表
+        for(var i=0;i<res.data.data.data.length;i++) {
+          if($scope.permissionGet[i].powersBackpId === role.id) {
+            $scope.updateRolePermission = $scope.permissionGet[i]
+            $scope.updateRolePermission2 = $scope.updateRolePermission
+            console.log($scope.updateRolePermission)
+          }
+        }
+
+        // $scope.updateRolePermission = {
+        //   roleId: role.id, //用户id
+        //   powersMname: $scope.permissionGet.powersMname, //所属模块名
+        //   powersBackpId: $scope.permissionGet.powersBackpId, //权限id
+        //   powersBackpChecked: $scope.permissionGet.powersBackpChecked, //是否全部勾选 1是0否
+        //   powersBackpMMone: $scope.permissionGet.powersBackpMMone //所属功能名称
+        // }
+
+      }
+    })
+
+  }
+
+  //权限状态
+
+  $scope.updateRolePermissionOK = function () {
+
+    var postData = {
+      roleId: $scope.updateRolePermission2.roleId,
+      powerId: []
+    }
+    RoleService.getRolePermissionPost(postData).then(function(res) {
+      if (res.code) {
+        popupSvc.smallBox("fail", res.msg);
+      } else {
+
+
+        popupSvc.smallBox("success", "成功");
+      }
+
+    })
+
+
+  }
+
+
+
   //公用
   $scope.common = function() {
 
   }
-
+  //修改
   $rootScope.getRoleInfo = function(role) {
     $scope.updateRolele = {
         id: role.id,
         title: role.title,
         remark: role.remark,
         status: role.status
-    };
+    }
+
   }
   //确认修改后
   $scope.updateRoleOK = function() {
@@ -120,7 +213,6 @@ angular.module('app.Role').controller('RoleCtrl', function($scope, $rootScope, A
        };
        popupSvc.smartMessageBox($rootScope.getWord("confirmationOperation"), sure);
   }
-
 
 
 

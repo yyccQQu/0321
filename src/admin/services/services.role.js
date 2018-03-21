@@ -6,14 +6,14 @@ RoleService.$inject = ['APP_CONFIG', 'httpSvc'];
 function RoleService(APP_CONFIG, httpSvc) {
     return {
         getRoleList: getRoleList,//列表获取
-        getHolderDisable: getHolderDisable, //状态获取
+        //getHolderDisable: getHolderDisable, //状态获取
         getRole: getRole, // 角色管理	GET/role
         addRole: addRole, // 角色管理--添加	POST/role
         updateRole: updateRole, //角色修改
         getRoleStatus: getRoleStatus, // 角色管理--修改状态	PUT /role/status
-        delRole: delRole // 角色管理--删除	DELETE/role
-        // getRolePermissionGet: getRolePermissionGet, // 角色管理--权限配置--修改	GET/role/permission
-        // getRolePermissionPost: getRolePermissionPost, // 角色管理--权限配置--修改	POST/role/permission
+        delRole: delRole, // 角色管理--删除	DELETE/role
+        getRolePermissionGet: getRolePermissionGet, // 角色管理--权限配置--获取	GET/role/permission
+        getRolePermissionPost: getRolePermissionPost // 角色管理--权限配置--修改	POST/role/permission
         // getRoleMenuGet: getRoleMenuGet, // 角色管理--菜单	GET/role/menu
         // getRoleMenuPost: getRoleMenuPost, // 角色管理--菜单--修改	POST/role/menu
     };
@@ -105,9 +105,9 @@ function RoleService(APP_CONFIG, httpSvc) {
 
         }
     }
-    // 角色管理--权限配置--修改	GET/role/permission
+    // 角色管理--权限配置--获取	GET/role/permission
     function getRolePermissionGet(postData) {
-        return httpSvc.get(APP_CONFIG.apiUrls.ROLE_PERMISSION_GET, postData).then(getDataComplete)
+        return httpSvc.get(APP_CONFIG.apiUrls.ROLE.ROLE_POWER, postData).then(getDataComplete)
             .catch(getDataFailed);
 
         function getDataComplete(response) {
@@ -121,7 +121,7 @@ function RoleService(APP_CONFIG, httpSvc) {
     }
     // 角色管理--权限配置--修改	POST/role/permission
     function getRolePermissionPost(postData) {
-        return httpSvc.post(APP_CONFIG.apiUrls.ROLE_PERMISSION_POST, postData).then(getDataComplete)
+        return httpSvc.post(APP_CONFIG.apiUrls.ROLE.ROLE_POWER, postData).then(getDataComplete)
             .catch(getDataFailed);
 
         function getDataComplete(response) {
@@ -163,7 +163,7 @@ function RoleService(APP_CONFIG, httpSvc) {
     }
     // 角色管理--修改状态	PUT /role/status
     function getRoleStatus(postData) {
-        return httpSvc.put(APP_CONFIG.apiUrls.ROLE_STATUS, postData).then(getDataComplete)
+        return httpSvc.put(APP_CONFIG.apiUrls.ROLE.ROLE_STATUS, postData).then(getDataComplete)
             .catch(getDataFailed);
 
         function getDataComplete(response) {
